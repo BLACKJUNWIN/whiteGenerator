@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.black.mapper.TemplateFileMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.black.entity.TemplateFile">
+        <id column="id" property="id" />
+        <result column="file_name" property="fileName" />
+        <result column="template_path_id" property="templatePathId" />
+        <result column="theme" property="theme" />
+        <result column="img_url" property="imgUrl" />
+        <result column="describe" property="describe" />
+        <result column="path" property="path" />
+        <result column="name" property="name" />
+        <result column="name_ch" property="nameCh" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    
+    <select id="selectAll" resultMap="BaseResultMap" parameterType="com.black.entity.TemplateFile">
+        select f.*,p.path,p.name,p.name_ch from `template_file` f left join `template_path` p on f.template_path_id=p.id
+        <where>
+                    <if test="id!=null">
+                        and f.`id` = #{id}
+                    </if>
+                    <if test="fileName!=null and fileName!=''">
+                        and f.`file_name` = #{fileName}
+                    </if>
+                    <if test="templatePathId!=null">
+                        and f.`template_path_id` = #{templatePathId}
+                    </if>
+                    <if test="theme!=null and theme!=''">
+                        and f.`theme` = #{theme}
+                    </if>
+                    <if test="imgUrl!=null and imgUrl!=''">
+                        and f.`img_url` = #{imgUrl}
+                    </if>
+                    <if test="describe!=null and describe!=''">
+                        and f.`describe` = #{describe}
+                    </if>
+                    <if test="createTime!=null">
+                        and f.`create_time` = #{createTime}
+                    </if>
+                    <if test="updateTime!=null">
+                        and f.`update_time` = #{updateTime}
+                    </if>
+        </where>
+        order by `create_time` desc
+    </select>
+
+    <update id="updateAll" parameterType="com.black.entity.TemplateFile">
+        update `template_file`
+        <set>
+                    <if test="fileName!=null and fileName!=''">
+                        `file_name` = #{fileName},
+                    </if>
+                    <if test="templatePathId!=null">
+                        `template_path_id` = #{templatePathId},
+                    </if>
+                    <if test="theme!=null and theme!=''">
+                        `theme` = #{theme},
+                    </if>
+                    <if test="imgUrl!=null and imgUrl!=''">
+                        `img_url` = #{imgUrl},
+                    </if>
+                    <if test="describe!=null and describe!=''">
+                        `describe` = #{describe},
+                    </if>
+                    <if test="createTime!=null">
+                        `create_time` = #{createTime},
+                    </if>
+                    <if test="updateTime!=null">
+                        `update_time` = #{updateTime},
+                    </if>
+        </set>
+        where `id` = #{id}
+    </update>
+</mapper>
